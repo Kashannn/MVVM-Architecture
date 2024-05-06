@@ -11,12 +11,13 @@ class NetworkApiServices extends BaseNetworkApiServices {
     dynamic responseJson;
     try {
       final response =
-          await http.get(Uri.parse(url)).timeout(Duration(seconds: 10));
+          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 10));
     } on SocketException {
       throw FetchDataException("No Internet Connection");
     }
     return responseJson;
   }
+
 
   @override
   Future getPostApiResponse(String url, dynamic body) async {
