@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../Utils/routes/routes_names.dart';
+import '../Utils/utils.dart';
 
 class Login_Screen extends StatefulWidget {
   const Login_Screen({super.key});
@@ -19,7 +20,8 @@ class _Login_ScreenState extends State<Login_Screen> {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            Navigator.pushNamed(context, RoutesName.home);
+            Utils.flashBarErrorMessage('Login Successful', context);
+
           },
           child: const Text('Go to Home Page'),
         ),
