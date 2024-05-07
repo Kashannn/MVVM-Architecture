@@ -8,12 +8,20 @@ import 'package:flutter/material.dart';
 
 class Utils {
 
+
+  static fieldFocusChange(BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);
+  }
+
+
+
   toastMessage(String message){
     Fluttertoast.showToast(msg:message);
   }
 
 
-static  flashBarErrorMessage(String message, BuildContext context) {
+dynamic  flashBarErrorMessage(String message, BuildContext context) {
     Flushbar(
       message: message,
       flushbarPosition: FlushbarPosition.TOP,
