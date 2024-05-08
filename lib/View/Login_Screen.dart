@@ -14,7 +14,6 @@ class Login_Screen extends StatefulWidget {
 }
 
 class _Login_ScreenState extends State<Login_Screen> {
-
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   FocusNode emailFocusNode = FocusNode();
@@ -28,11 +27,11 @@ class _Login_ScreenState extends State<Login_Screen> {
     passwordController.dispose();
     emailFocusNode.dispose();
     passwordFocusNode.dispose();
-
   }
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height * 1;
     final authViewModel = Provider.of<AuthViewModel>(context);
     return Scaffold(
         appBar: AppBar(
@@ -78,27 +77,38 @@ class _Login_ScreenState extends State<Login_Screen> {
                 RoundButton(
                   title: 'Login',
                   onPressed: () {
-                    if(emailController.text.isEmpty){
-                      Utils().flashBarErrorMessage('Please fill Email', context);
-                    }
-                    else if(passwordController.text.isEmpty){
-                      Utils().flashBarErrorMessage('Please fill Password', context);
-                    }
-                    else if (passwordController.text.length < 6) {
-                      Utils().flashBarErrorMessage('Password must be at least 6 characters', context);
-                    }
-                    else{
-                     Map data = {
+                    if (emailController.text.isEmpty) {
+                      Utils()
+                          .flashBarErrorMessage('Please fill Email', context);
+                    } else if (passwordController.text.isEmpty) {
+                      Utils().flashBarErrorMessage(
+                          'Please fill Password', context);
+                    } else if (passwordController.text.length < 6) {
+                      Utils().flashBarErrorMessage(
+                          'Password must be at least 6 characters', context);
+                    } else {
+                      Map data = {
                         'email': emailController.text,
                         'password': passwordController.text,
                       };
                       authViewModel.loginApi(data, context);
                       print('Api Hit');
-
                     }
                   },
                 ),
-
+                SizedBox(height: height * 0.1),
+                InkWell(
+                  child: Text(
+                    'Create Account',
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 20,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(context, RoutesName.singUp);
+                  }
+                ),
               ],
             ),
           ),

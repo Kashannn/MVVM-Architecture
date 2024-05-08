@@ -9,6 +9,8 @@ class AuthViewModel with ChangeNotifier {
 
   Future<void> loginApi(dynamic data, BuildContext context) async {
     await myRepository.login(data).then((value) {
+      Utils utils = Utils();
+      utils.flashBarErrorMessage("Login Successfully", context);
       Navigator.pushNamed(context, RoutesName.home);
     }).onError((error, stackTrace) {
       if (kDebugMode) {
