@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../Resourcess/Components/round-button.dart';
 import '../Utils/routes/routes_names.dart';
 import '../Utils/utils.dart';
+import '../View-Model/auth_viewModel.dart';
 
 class Login_Screen extends StatefulWidget {
   const Login_Screen({super.key});
@@ -12,13 +14,26 @@ class Login_Screen extends StatefulWidget {
 }
 
 class _Login_ScreenState extends State<Login_Screen> {
+
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   FocusNode emailFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    emailFocusNode.dispose();
+    passwordFocusNode.dispose();
+
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final authViewModel = Provider.of<AuthViewModel>(context);
     return Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -37,6 +52,7 @@ class _Login_ScreenState extends State<Login_Screen> {
             child: Column(
               children: [
                 TextFormField(
+                  controller: emailController,
                   focusNode: emailFocusNode,
                   decoration: const InputDecoration(
                     labelText: 'Email',
@@ -50,6 +66,7 @@ class _Login_ScreenState extends State<Login_Screen> {
                   height: 20,
                 ),
                 TextField(
+                  controller: passwordController,
                   focusNode: passwordFocusNode,
                   decoration: const InputDecoration(
                     labelText: 'Password',
@@ -61,8 +78,24 @@ class _Login_ScreenState extends State<Login_Screen> {
                 RoundButton(
                   title: 'Login',
                   onPressed: () {
-                    Utils().flashBarErrorMessage('Login Button Pressed', context);
-                     Navigator.pushNamed(context, RoutesName.home);
+                    if(emailController.text.isEmpty){
+                      Utils().flashBarErrorMessage('Please fill Email', context);
+                    }
+                    else if(passwordController.text.isEmpty){
+                      Utils().flashBarErrorMessage('Please fill Password', context);
+                    }
+                    else if (passwordController.text.length < 6) {
+                      Utils().flashBarErrorMessage('Password must be at least 6 characters', context);
+                    }
+                    else{
+                     Map data = {
+                        'email': emailController.text,
+                        'password': passwordController.text,
+                      };
+                      authViewModel.loginApi(data, context);
+                      print('Api Hit');
+
+                    }
                   },
                 ),
 

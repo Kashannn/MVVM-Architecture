@@ -4,7 +4,6 @@ import 'package:mvvm/Data/Network/BaseApiServices.dart';
 import '../App_Exception.dart';
 import 'package:http/http.dart' as http;
 
-
 class NetworkApiServices extends BaseNetworkApiServices {
   @override
   Future getGetApiResponse(String url) async {
@@ -17,7 +16,6 @@ class NetworkApiServices extends BaseNetworkApiServices {
     }
     return responseJson;
   }
-
 
   @override
   Future getPostApiResponse(String url, dynamic body) async {
