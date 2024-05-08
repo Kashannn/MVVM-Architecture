@@ -20,4 +20,18 @@ class AuthViewModel with ChangeNotifier {
     });
     notifyListeners();
   }
+
+  Future<void> signupApi(dynamic data, BuildContext context) async {
+    await myRepository.Signup(data).then((value) {
+      Utils utils = Utils();
+      utils.flashBarErrorMessage("Signup Successfully", context);
+      Navigator.pushNamed(context, RoutesName.login);
+    }).onError((error, stackTrace) {
+      if (kDebugMode) {
+        Utils utils = Utils();
+        utils.flashBarErrorMessage(error.toString(), context);
+      }
+    });
+    notifyListeners();
+  }
 }
